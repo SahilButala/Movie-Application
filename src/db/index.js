@@ -9,7 +9,7 @@ exports.ConnectDataBase = async () => {
     } else if (type === "Mysql") {
         await exports.connectMySQL();
     } else {
-        console.error("❌ Invalid DB_TYPE. Check your .env file.");
+        console.error("Invalid DB_TYPE. Check your .env file.");
     }
 };
 
@@ -18,9 +18,9 @@ exports.connectMONGODB = async () => {
     try {
         // Use await OR .then(), not both. Await is cleaner.
         await mongoose.connect(process.env.MONGO_URL);
-        console.log("✅ MongoDB Connected successfully..");
+        console.log("MongoDB Connected successfully..");
     } catch (error) {
-        console.error("❌ MongoDB connection error:", error.message);
+        console.error("MongoDB connection error:", error.message);
         process.exit(1); // Exit ONLY on failure
     }
 };
@@ -35,10 +35,10 @@ exports.connectMySQL = async () => {
             database: process.env.SQL_DATABASE,
         });
 
-        console.log("✅ MySQL connected successfully...");
+        console.log("MySQL connected successfully...");
         return connection;
     } catch (error) {
-        console.error("❌ MySQL connection error:", error.message);
+        console.error("MySQL connection error:", error.message);
         process.exit(1); // Exit ONLY on failure
     }
 };

@@ -3,6 +3,8 @@ const express = require('express');
 const { ServerConfig , Logger } = require('./config/index.js');
 const apiRoutes = require('./routes/index.js');
 const { ConnectDataBase } = require('./db/index.js');
+const dns = require("dns")
+dns.setServers(["8.8.8.8", "1.1.1.1"])
 const GlobalErrorhandler = require("./utils/error-handler.js")
 
 require("dotenv").config()
@@ -21,11 +23,11 @@ ConnectDataBase()
 app.use(express.json())
 app.use(express.urlencoded({extended  : true})) 
 // ----------------- MIDDELWARES -----------------//
-
+ 
 
 
 // ----------------- ALL ROUTES -----------------//
-app.use("/api" , apiRoutes)
+app.use("/mba/api" , apiRoutes)
 // ----------------- ALL ROUTES -----------------// 
 
 

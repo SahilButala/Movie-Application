@@ -48,18 +48,9 @@ class CrudRepository {
 
   // ----------------- GET ALL DATA  FUNC-----------------//
   async getAll(data) {
-    const {limit , skip} = data
     try {
-
-       const [count , row] = await Promise.all([
-        this.model.countDocuments(),
-        this.model.find().skip(skip).limit(limit)
-       ])
-
-       return {
-         totalItems : count,
-         row
-       }
+      const res = await this.model.find(data)
+      return res
     } catch (error) {
       console.log(error);
       Logger.error("Somthing went wrong  in the Crud Repo : Get");
@@ -72,9 +63,9 @@ class CrudRepository {
   async updateById(id, data) {
     // data : {col : value , ...}
     try {
-      const res = await this.model.findByIdAndUpdate(id , data , {
-         new : true,
-         runValidators : true
+      const res = await this.model.findByIdAndUpdate(id, data, {
+        new: true,
+        runValidators: true
       });
       return res;
     } catch (error) {
