@@ -43,7 +43,7 @@ class CrudRepository {
     try {
       const res = await this.model.findById(data);
       if (!res) {
-        throw new AppError("Movie is Not in Database", StatusCodes.BAD_REQUEST)
+        throw new AppError("Movie is Not in Database", StatusCodes.NOT_FOUND)
       }
       return res;
     } catch (error) {
