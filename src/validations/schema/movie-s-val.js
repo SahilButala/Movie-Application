@@ -41,12 +41,43 @@ const movieValidationSchema = (data) => {
   })
 
   return schema.validate(data, {
-    abortEarly: false,   
-    stripUnknown: true   
+    abortEarly: false,
+    stripUnknown: true
   })
+};
+
+const updateMovieValidationSchema = (data) => {
+  const schema = Joi.object({
+    name: Joi.string().trim().min(2).max(100),
+
+    description: Joi.string().trim().min(10),
+
+    casts: Joi.array()
+      .items(Joi.string().trim().min(2))
+      .min(1),
+
+    trailerUrl: Joi.string().uri(),
+
+    language: Joi.array()
+      .items(Joi.string().trim())
+      .min(1),
+
+    releaseDate: Joi.date().iso(),
+
+    director: Joi.string().trim().min(2),
+
+    releaseStatus: Joi.string().valid("RELEASED", "UPCOMING", "CANCELLED")
+  })
+    .min(1); // ✅ at least one field must be provided
+
+  return schema.validate(data, {
+    abortEarly: false,
+    stripUnknown: true
+  });
 };
 
 
 module.exports = {
-  movieValidationSchema
+  movieValidationSchema,
+  updateMovieValidationSchema
 }

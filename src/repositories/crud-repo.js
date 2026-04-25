@@ -1,4 +1,6 @@
+const { StatusCodes } = require("http-status-codes");
 const { Logger } = require("../config");
+const AppError = require("../utils/AppError");
 
 // this is the main class that directly talk with modal  , here we write any custome logic or query like join and custome inside it
 
@@ -24,6 +26,9 @@ class CrudRepository {
   async deleteById(id) {
     try {
       const res = await this.model.findByIdAndDelete(id);
+      if (!res) {
+        throw new AppError("Movie is already deleted from Database", StatusCodes.BAD_REQUEST)
+      }
       return res;
     } catch (error) {
       console.log(error);
@@ -37,6 +42,9 @@ class CrudRepository {
   async getById(data) {
     try {
       const res = await this.model.findById(data);
+      if (!res) {
+        throw new AppError("Movie is Not in Database", StatusCodes.BAD_REQUEST)
+      }
       return res;
     } catch (error) {
       console.log(error);
@@ -64,8 +72,8 @@ class CrudRepository {
     // data : {col : value , ...}
     try {
       const res = await this.model.findByIdAndUpdate(id, data, {
-        new: true,
-        runValidators: true
+        runValidators: true,
+        returnDocument: "after"
       });
       return res;
     } catch (error) {

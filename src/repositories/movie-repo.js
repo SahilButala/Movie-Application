@@ -27,7 +27,17 @@ class MovieRepo extends CrudRepository {
         return new paginationResponse(parseInt(page), Math.ceil(total / limit), total, movies)
     }
 
+    async getMovieById(id){
+         return await this.getById(id)
+    }
 
+    async updateMovieById(id , data){
+          return await this.updateById(id , data)
+    }
+
+    async deleteMovieById(id){
+         return await this.deleteById(id)
+    }
 }
 
 module.exports = MovieRepo
