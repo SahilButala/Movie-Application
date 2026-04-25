@@ -7,7 +7,7 @@ const { errorjoiFromat } = require("../utils/joi-error-clean-format");
 const AppError = require("../utils/AppError");
 
 
-
+// ───────────────────────────────────── CREATE MOVIE ──────────────────────────────────────────
 exports.createMovie = catchAsync(async (req, res, next) => {
      // parsing whole req data through joi validation
      const { error, value } = movieSchemaVal.movieValidationSchema(req?.body)
@@ -30,7 +30,9 @@ exports.createMovie = catchAsync(async (req, res, next) => {
      })
      res.status(StatusCodes.CREATED).json(new ApiRes(StatusCodes.CREATED, true, "Movie Created Successfully..", movie))
 })
+// ──────────────────────────────────── CREATE MOVIE ───────────────────────────────────────────
 
+// ───────────────────────────────────── GET ALL MOVIES ──────────────────────────────────────────
 exports.getAllMovies = catchAsync(async (req, res, next) => {
      const movie = await MovieService.getAllMovies({
           query: req?.query
@@ -38,8 +40,10 @@ exports.getAllMovies = catchAsync(async (req, res, next) => {
      console.log(movie, "movie")
      res.status(StatusCodes.OK).json(new ApiRes(StatusCodes.OK, true, "Movies Fetch Successfully..", movie))
 })
+// ──────────────────────────────────── GET ALL MOVIES ───────────────────────────────────────────
 
 
+// ───────────────────────────────────── UPDATE MOVIE ──────────────────────────────────────────
 exports.updateMovie = catchAsync(async (req, res , next) => {
      const { id } = req?.params
 
@@ -53,7 +57,10 @@ exports.updateMovie = catchAsync(async (req, res , next) => {
      res.status(StatusCodes.CREATED).json(new ApiRes(StatusCodes.CREATED , true , "Movie updated Successfully.." , movie))
 
 })
+// ──────────────────────────────────── UPDATE MOVIE ───────────────────────────────────────────
 
+
+// ───────────────────────────────────── GET MOVIE BY ID ──────────────────────────────────────────
 exports.getMovieById = catchAsync(async (req , res , next)=>{
       const {id} = req?.params
 
@@ -61,6 +68,9 @@ exports.getMovieById = catchAsync(async (req , res , next)=>{
      res.status(StatusCodes.OK).json(new ApiRes(StatusCodes.OK , true , "Movie Fetch Successfully.." , movie))
 
 })
+// ──────────────────────────────────── GET MOVIE BY ID ───────────────────────────────────────────
+
+// ───────────────────────────────────── DELETE BY ID ──────────────────────────────────────────
 exports.deleteMovie = catchAsync(async (req , res , next)=>{
       const {id} = req?.params
 
@@ -68,5 +78,6 @@ exports.deleteMovie = catchAsync(async (req , res , next)=>{
      res.status(StatusCodes.OK).json(new ApiRes(StatusCodes.OK , true , "Movie Deleted Successfully.." , movie))
 
 })
+// ──────────────────────────────────── DELETE BY ID ───────────────────────────────────────────
 
 
