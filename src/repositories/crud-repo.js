@@ -27,7 +27,7 @@ class CrudRepository {
     try {
       const res = await this.model.findByIdAndDelete(id);
       if (!res) {
-        throw new AppError("Movie is already deleted from Database", StatusCodes.BAD_REQUEST)
+        throw new AppError("This document is already deleted from our Database", StatusCodes.BAD_REQUEST)
       }
       return res;
     } catch (error) {

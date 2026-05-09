@@ -18,7 +18,7 @@ class MovieRepo extends CrudRepository {
     }
 
     async getAllMovies(filter, limit, page) {
-        console.log(filter , "repo movie get all")
+        console.log(filter, "repo movie get all")
 
         const total = await movieModel.countDocuments(filter)
         const skip = parseInt(page - 1) * limit
@@ -27,16 +27,16 @@ class MovieRepo extends CrudRepository {
         return new paginationResponse(parseInt(page), Math.ceil(total / limit), total, movies)
     }
 
-    async getMovieById(id){
-         return await this.getById(id)
+    async getMovieById(id) {
+        return await this.getById(id)
     }
 
-    async updateMovieById(id , data){
-          return await this.updateById(id , data)
+    async updateMovieById(id, data) {
+        return await this.updateById(id, data)
     }
 
-    async deleteMovieById(id){
-         return await this.deleteById(id)
+    async deleteMovieById(id) {
+        return await this.deleteById(id)
     }
 }
 
