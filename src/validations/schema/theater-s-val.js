@@ -19,7 +19,7 @@ const theaterSchemaValidate = (data) => {
         address: Joi.string().trim().optional()
     })
 
-    return schema.validate(data)
+    return schema.validate(data , {abortEarly : false})
 }
 const updatetheaterSchemaValidate = (data) => {
     const schema = Joi.object({
@@ -39,8 +39,26 @@ const updatetheaterSchemaValidate = (data) => {
         address: Joi.string().trim().optional()
     })
 
-    return schema.validate(data)
+    return schema.validate(data , {abortEarly : false})
 }
+const updateMovieInTheaterSchemaValidate = (data) => {
+    const schema = Joi.object({
+        insert: Joi.boolean().required().messages({
+            "any.required": "The 'insert' field is required.",
+            "boolean.base": "The 'insert' field must be a boolean value."
+        }),
+
+        movieIds: Joi.array()
+            .items(Joi.string().alphanum().message("Each Movie ID must be alphanumeric")) 
+            .min(1)
+            .messages({
+                "array.base": "movieIds must be an array.",
+                "array.min": "At least one Movie ID must be provided."
+            }),
+    });
+
+    return schema.validate(data, { abortEarly: false });
+};
 
 module.exports = {
     theaterSchemaValidate,

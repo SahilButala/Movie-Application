@@ -65,3 +65,18 @@ exports.deleteTheaterById = catchAsync(async (req, res, next) => {
     res.status(StatusCodes.OK).json(new ApiRes(StatusCodes.OK, true, "Theater Deleted Succssfully..", theater))
 })
 // ──────────────────────────────────── DELETE THEATER ───────────────────────────────────────────
+
+
+// ───────────────────────────────────── UPDATE MOVIES IN THEATERS ──────────────────────────────────────────
+exports.updateMoviesInTheaters = catchAsync(async (req, res, next) => {
+    const { insert, movieIds } = req?.body
+    const { id  } = req?.params // theater id
+    const theater = await TheaterService.updateMovieInTheater({
+        insert,
+        theaterId : id,
+        movieIds
+    })
+    res.status(StatusCodes.OK).json(new ApiRes(StatusCodes.OK, true, "Update Movie in theater Succssfully..", theater))
+
+})
+// ──────────────────────────────────── UPDATE MOVIES IN THEATERS ───────────────────────────────────────────

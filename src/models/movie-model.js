@@ -37,6 +37,10 @@ const movieModel = new mongoose.Schema({
         required: true,
         default: "RELEASED"
     },
+    theaters : {
+         type : [mongoose.Schema.Types.ObjectId],
+         ref : "Theater"
+    }
 
 }, {
     timestamps: true

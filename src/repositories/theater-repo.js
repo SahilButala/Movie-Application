@@ -17,7 +17,7 @@ class theaterRepo extends CrudRepository {
         const total = await theaterModel.countDocuments(filter)
         const skip = (parseInt(page - 1) * limit)
 
-        const theaters = await theaterModel.find(filter).limit(limit).skip(skip)
+        const theaters = await theaterModel.find(filter).limit(limit).skip(skip).populate("movies" , "name")
         return new paginationResponse(parseInt(page), Math.ceil(total / limit), total, theaters)
     }
     async getTheaterById(id, data) {
@@ -32,6 +32,38 @@ class theaterRepo extends CrudRepository {
     }
     async deleteTheater(id) {
         return await this.deleteById(id)
+    }
+
+    async updateMovieInTheater(insert, theaterId, movieIds) {
+        const theater = await this.getById(theaterId)
+        if (!theater) {
+            throw new AppError("Theater is not present in our database", StatusCodes.BAD_REQUEST)
+        }
+
+        if (!insert) {
+            throw new AppError("Please provide details to add movie in theater", StatusCodes.BAD_REQUEST)
+        }
+
+        if (insert) {
+            // we need to add movies
+            movieIds.forEach((movie) => {
+                theater.movies.push(movie)
+            })
+
+        } else {
+            // we need to remove movies
+
+            let savedMoviesIds = theater.movies
+            movieIds.forEach((movie) => {
+                savedMoviesIds = savedMoviesIds.filter((smi) => smi === movie)
+            })
+
+            theater.movies = savedMoviesIds
+        }
+
+        await theater.save()
+        return theater
+
     }
 }
 
