@@ -1,6 +1,7 @@
 const { StatusCodes } = require("http-status-codes")
 const { TheaterRepo } = require("../repositories")
 const AppError = require("../utils/AppError")
+const { movieModel } = require("../models")
 
 
 const theaterRepo = new TheaterRepo()
@@ -28,7 +29,11 @@ const getAllTheaters = async ({ query }) => {
        filter.pincode = query?.pincode
    }
 
-   
+   if(query?.movieId){
+       filter.movies = {$all : query?.movieId}
+   }
+
+
    const theater = await theaterRepo.getTheaters(filter, limit, page)
    return theater
 }
@@ -56,8 +61,6 @@ const deleteTheater = async (id) => {
 const updateMovieInTheater = async ({ insert,
    theaterId,
    movieIds }) => {
-
-      console.log(theaterId , "theaterId")
 
    if (!movieIds) {
       throw new AppError("Provide MovieIds to add in theater", StatusCodes.BAD_REQUEST)

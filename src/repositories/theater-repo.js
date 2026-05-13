@@ -17,7 +17,7 @@ class theaterRepo extends CrudRepository {
         const total = await theaterModel.countDocuments(filter)
         const skip = (parseInt(page - 1) * limit)
 
-        const theaters = await theaterModel.find(filter).limit(limit).skip(skip).populate("movies" , "name")
+        const theaters = await theaterModel.find(filter).limit(limit).skip(skip).populate("movies", "name")
         return new paginationResponse(parseInt(page), Math.ceil(total / limit), total, theaters)
     }
     async getTheaterById(id, data) {
@@ -35,35 +35,33 @@ class theaterRepo extends CrudRepository {
     }
 
     async updateMovieInTheater(insert, theaterId, movieIds) {
-        const theater = await this.getById(theaterId)
+        let theater
+        if (insert) {
+            // we need to add movies
+            // update one taking tw0 parameter , first id that you want to find your doc
+            // then second para update a perticular data that you want
+            // here we used $addSet : is used to add element into db by avoiding repatative id , reduce duplication similar to set in javascript 
+            // here $push can be used but , it can't handle duplication of documnet
+
+            theater = await theaterModel.findByIdAndUpdate({
+                _id: theaterId
+            }, {
+                $addToSet: { movies: { $each: movieIds } }
+            }, { new: true })
+
+        } else {
+            // we need to remove movies
+            theater = await theaterModel.findByIdAndUpdate({
+                _id: theaterId
+            }, {
+                $pull: { movies: { $in: movieIds } }
+            }, { new: true })
+        }
         if (!theater) {
             throw new AppError("Theater is not present in our database", StatusCodes.BAD_REQUEST)
         }
 
-        if (!insert) {
-            throw new AppError("Please provide details to add movie in theater", StatusCodes.BAD_REQUEST)
-        }
-
-        if (insert) {
-            // we need to add movies
-            movieIds.forEach((movie) => {
-                theater.movies.push(movie)
-            })
-
-        } else {
-            // we need to remove movies
-
-            let savedMoviesIds = theater.movies
-            movieIds.forEach((movie) => {
-                savedMoviesIds = savedMoviesIds.filter((smi) => smi === movie)
-            })
-
-            theater.movies = savedMoviesIds
-        }
-
-        await theater.save()
-        return theater
-
+        return theater.populate("movies" ,"name")
     }
 }
 

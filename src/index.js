@@ -7,6 +7,7 @@ const dns = require("dns")
 dns.setServers(["8.8.8.8", "1.1.1.1"])
 const GlobalErrorhandler = require("./utils/error-handler.js")
 const morgan = require('morgan') // to log api in terminal
+const mongoose = require("mongoose")
 
 require("dotenv").config()
 
@@ -18,7 +19,7 @@ ConnectDataBase()
 // ----------------- DATABASE ENTRY  -----------------//
 
 
-
+// mongoose.set("debug" , true)
 
 
 // ----------------- MIDDELWARES -----------------//
@@ -60,11 +61,11 @@ app.get("/", (req, res) => {
 // ----------------- SERVER RUNNING -----------------//
 app.listen(ServerConfig.PORT, () => {
     console.log(`Successfully started the server on PORT : ${ServerConfig.PORT}`);
-    // Logger.info("Successfully started " , {}) you can enable to log the messages
+    // Logger.info("Successfully started " , {}) // you can enable to log the messages
 });
 
 
-
+ 
 // ----------------- SERVER RUNNING -----------------//
 
 
