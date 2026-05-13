@@ -63,6 +63,16 @@ class theaterRepo extends CrudRepository {
 
         return theater.populate("movies" ,"name")
     }
+
+
+    async getMoviesInTheater(id){
+         const theater = await theaterModel.findById(id , {name : 1 , movies : 1 , address : 1})
+
+         if(!theater){
+             throw new AppError("Theater is not present inside db" , StatusCodes.BAD_REQUEST)
+         }
+         return theater.populate("movies" , "name")
+    }
 }
 
 module.exports = theaterRepo

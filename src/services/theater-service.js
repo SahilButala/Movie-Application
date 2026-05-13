@@ -25,12 +25,12 @@ const getAllTheaters = async ({ query }) => {
       filter.city = query?.city
    }
 
-   if(query?.pincode){
-       filter.pincode = query?.pincode
+   if (query?.pincode) {
+      filter.pincode = query?.pincode
    }
 
-   if(query?.movieId){
-       filter.movies = {$all : query?.movieId}
+   if (query?.movieId) {
+      filter.movies = { $all: query?.movieId }
    }
 
 
@@ -75,11 +75,22 @@ const updateMovieInTheater = async ({ insert,
    return theater
 }
 
+
+const getMoviesInTheater = async (id) => {
+   if (!id) {
+      throw new AppError("Provide id for update", StatusCodes.BAD_REQUEST)
+   }
+
+   const theater = await theaterRepo.getMoviesInTheater(id)
+   return theater
+}
+
 module.exports = {
    createTheater,
    getAllTheaters,
    getTheater,
    updateTheater,
    deleteTheater,
-   updateMovieInTheater
+   updateMovieInTheater,
+   getMoviesInTheater
 }
