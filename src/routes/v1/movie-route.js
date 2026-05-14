@@ -2,8 +2,10 @@
 
 const express = require("express")
 const { movieController } = require("../../controllers")
+const { authMiddleware } = require("../../middlewares")
 const router = express.Router()
 
+router.use(authMiddleware.authenticate)
 
 router.post("/" , movieController.createMovie)
 router.get("/" , movieController.getAllMovies)

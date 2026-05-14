@@ -2,7 +2,11 @@
 
 const express = require("express")
 const { theaterController } = require("../../controllers")
+const { authMiddleware } = require("../../middlewares")
 const router = express.Router()
+
+
+router.use(authMiddleware.authenticate)
 
 
 router.post("/" , theaterController.createTheater)

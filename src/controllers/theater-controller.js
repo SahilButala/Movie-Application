@@ -35,6 +35,8 @@ exports.getAllTheaters = catchAsync(async (req, res, next) => {
     const theaters = await TheaterService.getAllTheaters({
         query: req?.query
     })
+    const { role } = req?.user
+    console.log(role, "role from theater get apo")
     res.status(StatusCodes.OK).json(new ApiRes(StatusCodes.OK, true, "Theaters Fetch Succssfully..", theaters))
 })
 // ──────────────────────────────────── GET ALL THEATERS ───────────────────────────────────────────
