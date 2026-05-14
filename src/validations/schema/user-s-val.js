@@ -52,16 +52,15 @@ const userSchemaValidateLogin = (data) => {
             .messages({
                 "string.pattern.base": "Email is invalid format"
             }),
-        // password : Joi.string().required(),
-        password: Joi.string()
-            .min(8)
-            .pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])'))
-            .required()
-            .messages({
-                "string.min": "Password must be at least 8 characters long",
-                "string.pattern.base": "Password must contain uppercase, lowercase, a number, and a special character",
-                "any.required": "Password is required"
-            }),
+        // password: Joi.string()
+        //     .min(8)
+        //     .pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])'))
+        //     .required()
+        //     .messages({
+        //         "string.min": "Password must be at least 8 characters long",
+        //         "string.pattern.base": "Password must contain uppercase, lowercase, a number, and a special character",
+        //         "any.required": "Password is required"
+        //     }),
     })
 
     return schema.validate(data)
@@ -71,4 +70,4 @@ const userSchemaValidateLogin = (data) => {
 module.exports = {
     userSchemaValidateRegister,
     userSchemaValidateLogin
-}
+} 

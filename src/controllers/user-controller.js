@@ -26,14 +26,12 @@ exports.RegisterUser = catchAsync(async (req, res, next) => {
 
 // ───────────────────────────────────── LOGIN USER ──────────────────────────────────────────
 exports.LoginUser = catchAsync(async (req, res, next) => {
-    const { error, value } = userSchemaVal.userSchemaValidateLogin(req?.body)
-
+    const { error, value } = userSchemaVal.userSchemaValidateLogin({ email: req?.body?.email })
     if (error) {
         const message = errorjoiFromat(error)
         throw new AppError(message || "Joi Error during data parsing", StatusCodes.UNPROCESSABLE_ENTITY)
     }
-
-    const { user, token } = await UserService.LoginUser(value)
+    const { user, token } = await UserService.LoginUser({ email: value?.email, password: req?.body?.password })
     return res.status(StatusCodes.OK).json(new ApiRes(StatusCodes.OK, true, "User Login Successfully....", {
         token,
         user
