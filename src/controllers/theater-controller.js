@@ -14,7 +14,7 @@ exports.createTheater = catchAsync(async (req, res, next) => {
 
     if (error) {
         const message = errorjoiFromat(error)
-        throw new AppError(message, StatusCodes.BAD_REQUEST)
+        throw new AppError(message, StatusCodes.UNPROCESSABLE_ENTITY)
     }
 
     const theater = await TheaterService.createTheater({

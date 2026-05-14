@@ -54,7 +54,7 @@ app.use("/mba/api", apiRoutes)
  
 
 app.get("/", (req, res) => {
-    res.send("Welcome to Node Starter Template")
+    res.send("Welcome to Movie Booking Application backend")
 })
 
 

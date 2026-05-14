@@ -1,7 +1,7 @@
 const Joi = require("joi")
 
 
-const userSchemaValidate = (data) => {
+const userSchemaValidateRegister = (data) => {
     const schema = Joi.object({
         name: Joi.string().trim().min(2).max(20).required().messages({
             "string.min": "name length must be at least 2 characters long",
@@ -35,7 +35,32 @@ const userSchemaValidate = (data) => {
             .valid("APPROVED", "REJECTED")
             .default("APPROVED")
             .messages({
-                "any.only": "Role must be either CUSTOMER or ADMIN"
+                "any.only": "Status must be either APPROVED or "
+            }),
+    })
+
+    return schema.validate(data)
+}
+
+
+const userSchemaValidateLogin = (data) => {
+    const schema = Joi.object({
+        email: Joi.string()
+            .trim()
+            .pattern(new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/))
+            .required()
+            .messages({
+                "string.pattern.base": "Email is invalid format"
+            }),
+        // password : Joi.string().required(),
+        password: Joi.string()
+            .min(8)
+            .pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])'))
+            .required()
+            .messages({
+                "string.min": "Password must be at least 8 characters long",
+                "string.pattern.base": "Password must contain uppercase, lowercase, a number, and a special character",
+                "any.required": "Password is required"
             }),
     })
 
@@ -44,5 +69,6 @@ const userSchemaValidate = (data) => {
 
 
 module.exports = {
-     userSchemaValidate
+    userSchemaValidateRegister,
+    userSchemaValidateLogin
 }

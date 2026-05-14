@@ -15,7 +15,7 @@ exports.createMovie = catchAsync(async (req, res, next) => {
      if (error) {
           // if error comes then it will through error
           const message = errorjoiFromat(error)
-          throw new AppError(message, StatusCodes.BAD_REQUEST)
+          throw new AppError(message, StatusCodes.UNPROCESSABLE_ENTITY)
      }
 
      const movie = await MovieService.createMovie({
