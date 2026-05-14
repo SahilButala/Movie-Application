@@ -15,7 +15,8 @@ router.delete("/:id" , theaterController.deleteTheaterById)
 // mean for ex : Thane , inside lakeshore-mall there have to many movies that hoisted
 router.patch("/:id/movies" , theaterController.updateMoviesInTheaters)
 // get all movies that running in perticular theater
-router.get("/:id/movies" , theaterController.getMoviesInTheater)
+router.get("/:theaterId/movies" , theaterController.getMoviesInTheater)
+router.get("/:theaterId/movies/:movieId" , theaterController.checkMovieInTheater)
 
 
 

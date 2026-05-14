@@ -70,10 +70,10 @@ exports.deleteTheaterById = catchAsync(async (req, res, next) => {
 // ───────────────────────────────────── UPDATE MOVIES IN THEATERS ──────────────────────────────────────────
 exports.updateMoviesInTheaters = catchAsync(async (req, res, next) => {
     const { insert, movieIds } = req?.body
-    const { id  } = req?.params // theater id
+    const { id } = req?.params // theater id
     const theater = await TheaterService.updateMovieInTheater({
         insert,
-        theaterId : id,
+        theaterId: id,
         movieIds
     })
     res.status(StatusCodes.CREATED).json(new ApiRes(StatusCodes.CREATED, true, "Update Movie in theater Succssfully..", theater))
@@ -85,9 +85,17 @@ exports.updateMoviesInTheaters = catchAsync(async (req, res, next) => {
 
 // ───────────────────────────────────── GET ALL MOVIES IN THEATER ──────────────────────────────────────────
 exports.getMoviesInTheater = catchAsync(async (req, res, next) => {
-    const { id  } = req?.params // theater id
-    const theater = await TheaterService.getMoviesInTheater(id)
+    const { theaterId } = req?.params // theater id
+    const theater = await TheaterService.getMoviesInTheater(theaterId)
     res.status(StatusCodes.OK).json(new ApiRes(StatusCodes.OK, true, "Getting All Movies inside theater", theater))
 
 })
 // ──────────────────────────────────── GET ALL MOVIES IN THEATER ───────────────────────────────────────────
+
+// ───────────────────────────────────── CHECK MOVIE ──────────────────────────────────────────
+exports.checkMovieInTheater = catchAsync(async (req, res, next) => {
+    const { movieId, theaterId } = req?.params
+    const hasMovie = await TheaterService.checkMovieInTheater(theaterId, movieId)
+    res.status(StatusCodes.OK).json(new ApiRes(StatusCodes.OK, true, "Successfully checked if movie in theater", hasMovie))
+})
+// ──────────────────────────────────── CHECK MOVIE ───────────────────────────────────────────

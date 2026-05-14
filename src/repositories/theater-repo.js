@@ -73,6 +73,14 @@ class theaterRepo extends CrudRepository {
          }
          return theater.populate("movies" , "name")
     }
+
+    async checkMovieInTheater(theaterId , movieId){
+         let res = await this.getById(theaterId)
+         if(!res){
+            throw new AppError("No Such Theater is found in our Datatabase" , StatusCodes.BAD_REQUEST)
+         }
+         return res.movies?.includes(movieId)
+    }
 }
 
 module.exports = theaterRepo

@@ -85,6 +85,16 @@ const getMoviesInTheater = async (id) => {
    return theater
 }
 
+
+const checkMovieInTheater = async (theaterId , movieId)=>{
+
+    if(!theaterId || !movieId){
+       throw new AppError("provide a Theater id or movieId" , StatusCodes.BAD_REQUEST)
+    }
+    const theater = await theaterRepo.checkMovieInTheater(theaterId , movieId)
+    return theater
+}
+
 module.exports = {
    createTheater,
    getAllTheaters,
@@ -92,5 +102,6 @@ module.exports = {
    updateTheater,
    deleteTheater,
    updateMovieInTheater,
-   getMoviesInTheater
+   getMoviesInTheater,
+   checkMovieInTheater
 }
