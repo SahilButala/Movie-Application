@@ -9,7 +9,6 @@ const { errorjoiFromat } = require('../utils/joi-error-clean-format');
 const AppError = require('../utils/AppError');
 
 exports.RegisterUser = catchAsync(async (req, res, next) => {
-
     const { error, value } = userSchemaVal.userSchemaValidate(req?.body)
 
     if (error) {
