@@ -12,7 +12,7 @@ const theaterRoute  = require("./theater-route")
 
 
 // ----------------- ROUTES -----------------//
-router.use("/users", userRoute)
+router.use("/auth", userRoute)
 router.use("/movies" , movieRoute)
 router.use("/theater" ,theaterRoute )
 // ----------------- ROUTES -----------------//

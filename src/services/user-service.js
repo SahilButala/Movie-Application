@@ -1,5 +1,6 @@
 
 
+const { StatusCodes } = require("http-status-codes")
 const { UserRepo } = require("../repositories")
 const AppError = require("../utils/AppError")
 const catchAsynchandler = require("../utils/catch-async")
@@ -9,13 +10,22 @@ const paginationResponse = require("../utils/pagination-response")
 const userRepo = new UserRepo()
 
 
-const createUser = async (data) => {
+const RegisterUser = async (data) => {
     // console.log("data in service layer", data)
+    
     const { name, password, email } = data
-    if (!name || !password || !email) {
-        throw new AppError("error from user", 404)
+    // validate data 
+    if (!name) {
+        throw new AppError("Please Provide Name for Register", StatusCodes.BAD_REQUEST)
     }
-    const user = await userRepo.create(data)
+    if (!email) {
+        throw new AppError("Please Provide email for Register", StatusCodes.BAD_REQUEST)
+    }
+    if (!password) {
+        throw new AppError("Please Provide password for Register", StatusCodes.BAD_REQUEST)
+    }
+   
+    const user = await userRepo.RegisterUser(data)
     return user
 
 }
@@ -39,7 +49,7 @@ const updateUserById = async (id , data)=>{
 }
 
 module.exports = {
-    createUser,
+    RegisterUser,
     getUsers,
     updateUserById
 }

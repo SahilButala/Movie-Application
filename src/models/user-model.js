@@ -17,19 +17,18 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: [true, 'Password is required'],
-        unique: true
     },
     userRole: {
         type: String,
         required: true,
         default: "CUSTOMER",
-        enums: ["CUSTOMER", "ADMIN"]
+        enum: ["CUSTOMER", "ADMIN"]
     },
     userStatus: {
         type: String,
         required: true,
         default: "APPROVED",
-        enums: ["APPROVED", "REJECTED"]
+        enum: ["APPROVED", "REJECTED"]
     },
 
 
