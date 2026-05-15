@@ -75,6 +75,7 @@ class CrudRepository {
         runValidators: true,
         returnDocument: "after"
       });
+      
       return res;
     } catch (error) {
       Logger.error("Something went wrong in Crud Repo : Update");

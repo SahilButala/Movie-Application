@@ -44,7 +44,17 @@ const adminAccess = (req , res , next)=>{
      next()
 }
 
+const isAdminOrClient = (req , res , next)=>{
+     const {role} = req?.user
+     console.log(role)
+     if(role !== "ADMIN" && role !== "CUSTOMER" ){
+         throw new AppError("User nither client or not admin , can not procced with request" , StatusCodes.FORBIDDEN)
+     }
+     next()
+}
+
 module.exports = {
      authenticate,
-     adminAccess
+     adminAccess,
+     isAdminOrClient
 }

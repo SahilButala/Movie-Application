@@ -46,22 +46,28 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
     const users = await UserService.getUsers({
          query : req?.query
     })
-    return res.status(StatusCodes.OK).json(new ApiRes(200, true, "Users are fetch Successfully..", users))
+    return res.status(StatusCodes.OK).json(new ApiRes(StatusCodes.OK, true, "Users are fetch Successfully..", users))
 })
 // ──────────────────────────────────── GET ALL USERS ───────────────────────────────────────────
 
 
 // ───────────────────────────────────── UPDATE USER ──────────────────────────────────────────
 exports.updateById = catchAsync(async (req, res, next) => {
-    const user = await UserService.updateUserById(req?.params?.id, req?.body)
-    return res.status(StatusCodes.OK).json(new ApiRes(200, true, "user updated successfully..", user))
+    const {error , value} = userSchemaVal.userSchemaValidateUpdate(req?.body)
+
+    if(error){
+         const message = errorjoiFromat(error)
+         throw new AppError(message || "Joi Error During Data Parssing" , StatusCodes.UNPROCESSABLE_ENTITY)
+    }
+    const user = await UserService.updateUserById(req?.params?.id, value)
+    return res.status(StatusCodes.OK).json(new ApiRes(StatusCodes.OK, true, "user updated successfully..", user))
 })
 // ──────────────────────────────────── UPDATE USER ───────────────────────────────────────────
 
 // ───────────────────────────────────── GET USER BY ID ──────────────────────────────────────────
 exports.getUserById = catchAsync(async (req, res, next) => {
-    const user = await UserService.getUserById(req?.params?.id)
-    return res.status(StatusCodes.OK).json(new ApiRes(200, true, "user fetch successfully..", user))
+    const {user} = await UserService.getUserById(req?.params?.id)
+    return res.status(StatusCodes.OK).json(new ApiRes(StatusCodes.OK, true, "user fetch successfully..", user))
 })
 // ──────────────────────────────────── GET USER BY ID ───────────────────────────────────────────
 

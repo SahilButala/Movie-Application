@@ -10,7 +10,7 @@ router.use(authMiddleware.authenticate)
 
 
 router.post("/" , theaterController.createTheater)
-router.get("/" , theaterController.getAllTheaters)
+router.get("/" , authMiddleware.isAdminOrClient , theaterController.getAllTheaters)
 router.get("/:id" , theaterController.getTheater)
 router.patch("/:id" , theaterController.updateTheaterById)
 router.delete("/:id" , theaterController.deleteTheaterById)

@@ -66,7 +66,7 @@ const getUsers = async ({query}) => {
 
 
 const updateUserById = async (id , data)=>{
-     const user = await userRepo.updateById(id , data)
+     const user = await userRepo.updateUserById(id , data)
      return user
 }
 

@@ -75,7 +75,21 @@ class UserRepo extends CrudRepository {
         return new paginationResponse(parseInt(page), Math.ceil(total / limit), total, users)
     }
     async getUserById(id) {
-        const user = await userModel.findById(id).select("-password")
+        const user = await userModel.findById(id)
+
+        const userObject = user?.toObject ? user?.toObject() : user
+
+        const {password , ...withOutPasswordUser} = userObject
+        return {
+             user : withOutPasswordUser
+        }
+    }
+
+    async updateUserById(id , data){
+        const user = await this.updateById(id , data)
+        if(!user){
+             throw new AppError("User is invalid or not found to update this document" , StatusCodes.BAD_REQUEST)
+        }
         return user
     }
 }
