@@ -55,15 +55,13 @@ const LoginUser = async (data)=>{
 }
 
 
-const getUsers = async (data) => {
-    const { page = 1, limit = 10 } = data
-    const skip = (parseInt(page) - 1) * limit
-    let mongo = {
-        limit,
-        skip
-    }
-    const { totalItems, row } = await userRepo.getAll(mongo)
-    return new paginationResponse(Number(page), Math.ceil(totalItems / limit), row?.length, row)
+const getUsers = async ({query}) => {
+     const filter = {}
+     const limit = parseInt(query?.limit) || 10  
+     const page  = parseInt(query?.page) || 1 
+
+     const user = await userRepo.getAllUsers(filter , limit , page)
+     return user
 }
 
 
@@ -72,9 +70,19 @@ const updateUserById = async (id , data)=>{
      return user
 }
 
+const getUserById = async (id)=>{
+   if(!id){
+     throw new AppError("Id is not present please provide id to get user" , StatusCodes.BAD_REQUEST)
+   }
+
+   const user = await userRepo.getUserById(id)
+   return user
+}
+
 module.exports = {
     RegisterUser,
     getUsers,
     updateUserById,
-    LoginUser
+    LoginUser,
+    getUserById
 }

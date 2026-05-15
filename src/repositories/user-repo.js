@@ -6,6 +6,7 @@ const AppError = require("../utils/AppError")
 const { StatusCodes } = require("http-status-codes")
 const bycrpt = require("bcrypt")
 const jwt = require("jsonwebtoken")
+const paginationResponse = require("../utils/pagination-response")
 
 
 
@@ -64,6 +65,18 @@ class UserRepo extends CrudRepository {
             user: userWithoutPassword
         }
 
+    }
+
+    async getAllUsers(filter, limit, page) {
+        const total = await userModel.countDocuments(filter)
+        const skip = parseInt(page - 1) * limit
+
+        const users = await userModel.find(filter).skip(skip).limit(limit)
+        return new paginationResponse(parseInt(page), Math.ceil(total / limit), total, users)
+    }
+    async getUserById(id) {
+        const user = await userModel.findById(id).select("-password")
+        return user
     }
 }
 

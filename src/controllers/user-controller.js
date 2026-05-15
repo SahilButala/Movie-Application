@@ -44,10 +44,9 @@ exports.LoginUser = catchAsync(async (req, res, next) => {
 // ───────────────────────────────────── GET ALL USERS ──────────────────────────────────────────
 exports.getAllUsers = catchAsync(async (req, res, next) => {
     const users = await UserService.getUsers({
-        page: req?.query.page,
-        limit: req?.query.limit
+         query : req?.query
     })
-    return res.status(StatusCodes.OK).json(new ApiRes(200, true, "Users", users))
+    return res.status(StatusCodes.OK).json(new ApiRes(200, true, "Users are fetch Successfully..", users))
 })
 // ──────────────────────────────────── GET ALL USERS ───────────────────────────────────────────
 
@@ -58,4 +57,11 @@ exports.updateById = catchAsync(async (req, res, next) => {
     return res.status(StatusCodes.OK).json(new ApiRes(200, true, "user updated successfully..", user))
 })
 // ──────────────────────────────────── UPDATE USER ───────────────────────────────────────────
+
+// ───────────────────────────────────── GET USER BY ID ──────────────────────────────────────────
+exports.getUserById = catchAsync(async (req, res, next) => {
+    const user = await UserService.getUserById(req?.params?.id)
+    return res.status(StatusCodes.OK).json(new ApiRes(200, true, "user fetch successfully..", user))
+})
+// ──────────────────────────────────── GET USER BY ID ───────────────────────────────────────────
 
