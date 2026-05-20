@@ -10,7 +10,14 @@ const USER_ROLE = {
     client : "CLIENT"
 }
 
+const BOOKING_STATUS = {
+    cancelled : "CANCELLED",
+    successFull : "SUCCESSFULL",
+    proccessing : "IN_PROCESS"
+}
+
 module.exports = {
      USER_STATUS,
-     USER_ROLE
+     USER_ROLE,
+     BOOKING_STATUS
 }

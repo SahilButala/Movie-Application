@@ -9,7 +9,7 @@ const jwt = require("jsonwebtoken")
 const paginationResponse = require("../utils/pagination-response")
 
 
-
+// create token helper function
 const gernerateToken = (user) => {
     const payload = {
         id: user?._id,
@@ -27,7 +27,7 @@ class UserRepo extends CrudRepository {
     constructor() {
         super(userModel)
     }
-
+    // Register
     async RegisterUser(data) {
         const isEmailExsist = await userModel.findOne({ email: data?.email })
         if (isEmailExsist) {
@@ -43,6 +43,7 @@ class UserRepo extends CrudRepository {
         return user
     }
 
+    // Login
     async LoginUser(data) {
         const user = await userModel.findOne({ email: data?.email })
 
@@ -66,7 +67,8 @@ class UserRepo extends CrudRepository {
         }
 
     }
-
+    
+    // Get All Users
     async getAllUsers(filter, limit, page) {
         const total = await userModel.countDocuments(filter)
         const skip = parseInt(page - 1) * limit
@@ -74,6 +76,8 @@ class UserRepo extends CrudRepository {
         const users = await userModel.find(filter).skip(skip).limit(limit)
         return new paginationResponse(parseInt(page), Math.ceil(total / limit), total, users)
     }
+    
+    // Get User By Id
     async getUserById(id) {
         const user = await userModel.findById(id)
 
@@ -85,6 +89,7 @@ class UserRepo extends CrudRepository {
         }
     }
 
+    // Update User
     async updateUserById(id , data){
         const user = await this.updateById(id , data)
         if(!user){
